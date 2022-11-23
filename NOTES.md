@@ -1,3 +1,14 @@
+- [ZTM Angular - Tutorial notes](#ztm-angular---tutorial-notes)
+  - [Modules](#modules)
+  - [Components](#components)
+  - [Multi-slot Content Projection](#multi-slot-content-projection)
+  - [Services](#services)
+    - [Injecting Services](#injecting-services)
+        - [Method 1](#method-1)
+        - [Method 2:](#method-2)
+        - [Method 3](#method-3)
+  - [Singletons](#singletons)
+
 # ZTM Angular - Tutorial notes
 
 ## Modules
@@ -92,3 +103,7 @@ Finally, you can inject services on a:
 1. global level,
 1. module level or
 1. component level
+
+## Singletons
+
+A singleton is when one instance of a class exists in an application
