@@ -8,6 +8,7 @@
         - [Method 2:](#method-2)
         - [Method 3](#method-3)
   - [Singletons](#singletons)
+  - [Memory Leak](#memory-leak)
 
 # ZTM Angular - Tutorial notes
 
@@ -107,3 +108,10 @@ Finally, you can inject services on a:
 ## Singletons
 
 A singleton is when one instance of a class exists in an application
+
+## Memory Leak
+
+A memory leak is when a variable is not uninitialized. Some variables need to be available throughout the lifetime of an application. Other variables can exist for a single moment. Afterwards we can toss them away.
+Whenever we define a variable, we are taking up memorey or storage on a user's machine.
+
+A memory leak can happen if we forget to destroy a variable.
