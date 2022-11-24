@@ -28,4 +28,10 @@ export class TabsContainerComponent implements AfterContentInit {
     this.tabs?.forEach((tab) => (tab.active = false));
     tab.active = true;
   }
+
+  tabStatusClass(tab: TabComponent): string {
+    return tab.active
+      ? 'bg-indigo-400 text-white hover:text-white'
+      : 'hover:text-indigo-400';
+  }
 }
