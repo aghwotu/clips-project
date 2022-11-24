@@ -8,7 +8,8 @@
         - [Method 2:](#method-2)
         - [Method 3](#method-3)
   - [Singletons](#singletons)
-  - [Memory Leak](#memory-leak)
+  - [Memory Leaks](#memory-leaks)
+  - [CSS Issues](#css-issues)
 
 # ZTM Angular - Tutorial notes
 
@@ -109,9 +110,19 @@ Finally, you can inject services on a:
 
 A singleton is when one instance of a class exists in an application
 
-## Memory Leak
+## Memory Leaks
 
 A memory leak is when a variable is not uninitialized. Some variables need to be available throughout the lifetime of an application. Other variables can exist for a single moment. Afterwards we can toss them away.
 Whenever we define a variable, we are taking up memorey or storage on a user's machine.
 
 A memory leak can happen if we forget to destroy a variable.
+
+## CSS Issues
+
+A CSS issue with the modal is that css from the parent components affect it. To fix this, we use the `ElementRef`
+
+```javascript
+import { ElementRef } from "@angular/core";
+```
+
+The `ElementRef` object gives us access to the host element of our component. We want to take the modal out of the flow and place it in the body tag.
