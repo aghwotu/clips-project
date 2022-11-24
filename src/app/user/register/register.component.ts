@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -7,21 +7,21 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
-  name = new FormControl('', [Validators.required, Validators.minLength(3)]);
-  email = new FormControl('', [Validators.required, Validators.email]);
-  age = new FormControl('', [
+  name = new UntypedFormControl('', [Validators.required, Validators.minLength(3)]);
+  email = new UntypedFormControl('', [Validators.required, Validators.email]);
+  age = new UntypedFormControl('', [
     Validators.required,
     Validators.min(18),
     Validators.max(120),
   ]);
-  password = new FormControl('', [
+  password = new UntypedFormControl('', [
     Validators.required,
     Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm),
   ]);
-  confirmPassword = new FormControl('', [Validators.required]);
-  phoneNumber = new FormControl('');
+  confirmPassword = new UntypedFormControl('', [Validators.required]);
+  phoneNumber = new UntypedFormControl('');
 
-  registerForm = new FormGroup({
+  registerForm = new UntypedFormGroup({
     name: this.name,
     email: this.email,
     age: this.age,
