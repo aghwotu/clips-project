@@ -11,21 +11,28 @@ import {
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
-  name = new UntypedFormControl('', [
+  showAlert: boolean = false;
+  alertMessage: string = 'Please wait! Your account is being created.';
+  alertColor: string = 'blue';
+
+  name = new UntypedFormControl('test', [
     Validators.required,
     Validators.minLength(3),
   ]);
-  email = new UntypedFormControl('', [Validators.required, Validators.email]);
-  age = new UntypedFormControl('', [
+  email = new UntypedFormControl('t@m.com', [
+    Validators.required,
+    Validators.email,
+  ]);
+  age = new UntypedFormControl('56', [
     Validators.required,
     Validators.min(18),
     Validators.max(120),
   ]);
-  password = new UntypedFormControl('', [
+  password = new UntypedFormControl('Android7', [
     Validators.required,
     Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm),
   ]);
-  confirmPassword = new UntypedFormControl('', [Validators.required]);
+  confirmPassword = new UntypedFormControl('Android7', [Validators.required]);
   phoneNumber = new UntypedFormControl('', [
     Validators.required,
     Validators.minLength(13),
@@ -42,6 +49,8 @@ export class RegisterComponent {
   });
 
   register() {
-    console.log(this.registerForm);
+    this.showAlert = true;
+    this.alertMessage = 'Please wait! Your account is being created.';
+    this.alertColor = 'blue';
   }
 }
