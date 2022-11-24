@@ -11,6 +11,7 @@
   - [Memory Leaks](#memory-leaks)
   - [CSS Issues](#css-issues)
   - [Content Children Decorator](#content-children-decorator)
+  - [Handling Form Submission](#handling-form-submission)
 
 # ZTM Angular - Tutorial notes
 
@@ -131,3 +132,7 @@ The `ElementRef` object gives us access to the host element of our component. We
 ## Content Children Decorator
 
 This allows us to select elements from projected contents.
+
+## Handling Form Submission
+
+We can submit a form either using the `(submit)=""` or `(ngSubmit)=""`. If we use the `(ngSubmit)=""` the form will submit without refreshing but if we use the `(submit)=""`, we must prevent the default behaviour ourselves.
