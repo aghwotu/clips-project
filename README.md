@@ -1,6 +1,6 @@
 # ClipsProject
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.6.
+This project was originally generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.6 and later upgraded to version 15.0.1
 
 ## Development server
 
