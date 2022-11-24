@@ -10,6 +10,7 @@
   - [Singletons](#singletons)
   - [Memory Leaks](#memory-leaks)
   - [CSS Issues](#css-issues)
+  - [Content Children Decorator](#content-children-decorator)
 
 # ZTM Angular - Tutorial notes
 
@@ -126,3 +127,7 @@ import { ElementRef } from "@angular/core";
 ```
 
 The `ElementRef` object gives us access to the host element of our component. We want to take the modal out of the flow and place it in the body tag.
+
+## Content Children Decorator
+
+This allows us to select elements from projected contents.
