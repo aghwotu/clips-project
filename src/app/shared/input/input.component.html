@@ -5,6 +5,7 @@
   required=""
   [placeholder]="placeholder"
   [mask]="format"
+  [dropSpecialCharacters]="false"
 />
 <ng-container *ngIf="control.touched && control.dirty">
   <p *ngIf="control.errors?.['required']" class="text-red-400">
