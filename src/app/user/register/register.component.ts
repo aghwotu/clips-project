@@ -15,20 +15,17 @@ export class RegisterComponent {
   alertMessage: string = 'Please wait! Your account is being created.';
   alertColor: string = 'blue';
 
-  name = new UntypedFormControl('test', [
+  name = new UntypedFormControl('', [
     Validators.required,
     Validators.minLength(3),
   ]);
-  email = new UntypedFormControl('t@m.com', [
-    Validators.required,
-    Validators.email,
-  ]);
-  age = new UntypedFormControl('56', [
+  email = new UntypedFormControl('', [Validators.required, Validators.email]);
+  age = new UntypedFormControl('', [
     Validators.required,
     Validators.min(18),
     Validators.max(120),
   ]);
-  password = new UntypedFormControl('Android7', [
+  password = new UntypedFormControl('', [
     Validators.required,
     Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm),
   ]);
