@@ -2,6 +2,8 @@
 
 This project was originally generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.6 and later upgraded to version 15.0.1
 
+Course: Complete Angular Developer in 2022: Zero to Mastery
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
