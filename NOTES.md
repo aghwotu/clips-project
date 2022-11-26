@@ -15,6 +15,8 @@
 
 # ZTM Angular - Tutorial notes
 
+Course: Complete Angular Developer in 2022: Zero to Mastery
+
 ## Modules
 
 The module system in Angular helps us to export and import a group of files. The modules we create should group files by feature.
