@@ -15,7 +15,7 @@
 
 # ZTM Angular - Tutorial notes
 
-Course: Complete Angular Developer in 2022: Zero to Mastery
+Course: [Complete Angular Developer in 2022: Zero to Mastery](https://www.udemy.com/course/complete-angular-developer-zero-to-mastery/)
 
 ## Modules
 

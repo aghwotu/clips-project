@@ -2,7 +2,7 @@
 
 This project was originally generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.6 and later upgraded to version 15.0.1
 
-Course: Complete Angular Developer in 2022: Zero to Mastery
+Course: [Complete Angular Developer in 2022: Zero to Mastery](https://www.udemy.com/course/complete-angular-developer-zero-to-mastery/)
 
 ## Development server
 
