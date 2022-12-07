@@ -63,10 +63,12 @@ export class RegisterComponent {
         password
       );
       console.log(userCredentials);
+      this.formInSubmission = false;
     } catch (e) {
       console.error(e);
       this.alertMessage = 'An unexpected error occured, please try again later';
       this.alertColor = 'red';
+      this.formInSubmission = false;
       return;
     }
 
