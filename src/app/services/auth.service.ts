@@ -6,7 +6,7 @@ import {
 } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import IUser from '../models/user.model';
-import { map } from 'rxjs/operators';
+import { map, delay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -14,10 +14,13 @@ import { map } from 'rxjs/operators';
 export class AuthService {
   private _usersCollection: AngularFirestoreCollection<IUser>;
   public isAuthenticated$: Observable<boolean>;
+  public isAuthenticatedWithDelay$: Observable<boolean>;
 
   constructor(private _auth: AngularFireAuth, private _db: AngularFirestore) {
     this._usersCollection = this._db.collection('users');
     this.isAuthenticated$ = this._auth.user.pipe(map((user) => Boolean(user)));
+    // allow a 1second delay after authentication so the modal doesn't close abruptly
+    this.isAuthenticatedWithDelay$ = this.isAuthenticated$.pipe(delay(1000));
   }
 
   public async createUser(userData: IUser) {
