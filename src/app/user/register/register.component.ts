@@ -50,7 +50,7 @@ export class RegisterComponent {
       confirmPassword: this.confirmPassword,
       phoneNumber: this.phoneNumber,
     },
-    [RegisterValidators.match]
+    [RegisterValidators.match('password', 'confirmPassword')]
   );
 
   async register() {
