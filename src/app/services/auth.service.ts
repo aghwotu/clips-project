@@ -20,6 +20,7 @@ export class AuthService {
     if (!userData.password) {
       throw new Error('Password not provided.');
     }
+    // register user with the authentication service
     const userCredentials = await this._auth.createUserWithEmailAndPassword(
       userData.email,
       userData.password
@@ -28,6 +29,7 @@ export class AuthService {
     if (!userCredentials.user) {
       throw new Error("User can't be found.");
     }
+    // store the user in the database
     await this._usersCollection.doc(userCredentials.user?.uid).set({
       name: userData.name,
       email: userData.email,
