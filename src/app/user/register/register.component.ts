@@ -5,6 +5,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
+import { RegisterValidators } from '../validators/register-validators';
 
 @Component({
   selector: 'app-register',
@@ -40,14 +41,17 @@ export class RegisterComponent {
     Validators.maxLength(13),
   ]);
 
-  registerForm = new UntypedFormGroup({
-    name: this.name,
-    email: this.email,
-    age: this.age,
-    password: this.password,
-    confirmPassword: this.confirmPassword,
-    phoneNumber: this.phoneNumber,
-  });
+  registerForm = new UntypedFormGroup(
+    {
+      name: this.name,
+      email: this.email,
+      age: this.age,
+      password: this.password,
+      confirmPassword: this.confirmPassword,
+      phoneNumber: this.phoneNumber,
+    },
+    [RegisterValidators.match]
+  );
 
   async register() {
     this.showAlert = true;
