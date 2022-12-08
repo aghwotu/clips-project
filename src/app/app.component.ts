@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from './services/auth.service';
 import { ModalService } from './services/modal.service';
 
 @Component({
@@ -8,4 +9,6 @@ import { ModalService } from './services/modal.service';
 })
 export class AppComponent {
   title = 'clips-project';
+
+  constructor(public auth: AuthService) {}
 }
