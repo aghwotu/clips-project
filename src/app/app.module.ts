@@ -11,6 +11,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from 'src/environments/environment';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
+import { VideoModule } from './video/video.module';
 
 @NgModule({
   declarations: [AppComponent, NavComponent, HomeComponent, AboutComponent],
@@ -21,6 +22,7 @@ import { AboutComponent } from './about/about.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule, //allow us interact with the database.
+    VideoModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
