@@ -7,6 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import IUser from '../models/user.model';
 import { map, delay } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,11 @@ export class AuthService {
   public isAuthenticated$: Observable<boolean>;
   public isAuthenticatedWithDelay$: Observable<boolean>;
 
-  constructor(private _auth: AngularFireAuth, private _db: AngularFirestore) {
+  constructor(
+    private _auth: AngularFireAuth,
+    private _db: AngularFirestore,
+    private _router: Router
+  ) {
     this._usersCollection = this._db.collection('users');
     this.isAuthenticated$ = this._auth.user.pipe(map((user) => Boolean(user)));
     // allow a 1second delay after authentication so the modal doesn't close abruptly
@@ -47,5 +52,13 @@ export class AuthService {
     await userCredentials.user.updateProfile({
       displayName: userData.name,
     });
+  }
+
+  public async logout($event?: Event) {
+    if ($event) {
+      $event.preventDefault();
+    }
+    await this._auth.signOut();
+    await this._router.navigateByUrl('/');
   }
 }
