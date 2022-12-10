@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-upload',
@@ -8,6 +9,17 @@ import { Component } from '@angular/core';
 export class UploadComponent {
   isDragover: boolean = false;
   file: File | null = null;
+  nextStep: boolean = false;
+
+  videoTitle = new FormControl('', {
+    validators: [Validators.required, Validators.minLength(3)],
+  });
+  videoUploadForm = new FormGroup({
+    videoTitle: this.videoTitle,
+  });
+  formInSubmission: boolean = false;
+
+  constructor() {}
 
   storeFile($event: Event) {
     this.isDragover = false;
@@ -18,6 +30,11 @@ export class UploadComponent {
       return;
     }
 
-    console.log(this.file);
+    this.videoTitle.setValue(this.file.name.replace(/\.[^/.]+$/, ''));
+    this.nextStep = true;
+  }
+
+  uploadFile() {
+    console.log('file uploaded');
   }
 }
