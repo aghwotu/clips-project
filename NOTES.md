@@ -12,6 +12,7 @@
   - [CSS Issues](#css-issues)
   - [Content Children Decorator](#content-children-decorator)
   - [Handling Form Submission](#handling-form-submission)
+  - [Routing](#routing)
 
 # ZTM Angular - Tutorial notes
 
@@ -138,3 +139,17 @@ This allows us to select elements from projected contents.
 ## Handling Form Submission
 
 We can submit a form either using the `(submit)=""` or `(ngSubmit)=""`. If we use the `(ngSubmit)=""` the form will submit without refreshing but if we use the `(submit)=""`, we must prevent the default behaviour ourselves.
+
+## Routing
+
+- **Path Parameters** - should be used for returning a single resource or multiple resources
+
+```text
+/clip?id=1
+```
+
+- **Query Parameters** - should be used for sorting/filtering through data
+
+```text
+/clip/1
+```
