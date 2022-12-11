@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ClipService } from 'src/app/services';
+import IClip from 'src/app/models/clip.model';
 
 @Component({
   selector: 'app-manage',
@@ -9,6 +10,7 @@ import { ClipService } from 'src/app/services';
 })
 export class ManageComponent implements OnInit {
   videoOrder = '1'; //we are storing this as a string because it is the default type from input fields
+  clips: IClip[] = [];
 
   constructor(
     private _router: Router,
@@ -22,7 +24,16 @@ export class ManageComponent implements OnInit {
         params['params']['sort'] === '2' ? params['params']['sort'] : '1';
     });
 
-    this._clipService.getUserClips().subscribe(console.log);
+    this._clipService.getUserClips().subscribe((docs) => {
+      this.clips = []; //reset array
+
+      docs.forEach((doc) => {
+        this.clips.push({
+          docID: doc.id,
+          ...doc.data(),
+        });
+      });
+    });
   }
 
   sort(event: Event) {
