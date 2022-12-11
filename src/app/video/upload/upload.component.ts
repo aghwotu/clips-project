@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { v4 as uuid } from 'uuid';
-import { last } from 'rxjs/operators';
+import { last, switchMap } from 'rxjs/operators';
 import { AlertColor } from 'src/app/models/alert.model';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import firebase from 'firebase/compat/app';
 
 @Component({
   selector: 'app-upload',
@@ -22,6 +24,8 @@ export class UploadComponent {
   uploadPercentage: number = 0;
   showPercentage: boolean = false;
 
+  user: firebase.User | null = null;
+
   videoTitle = new FormControl('', {
     validators: [Validators.required, Validators.minLength(3)],
   });
@@ -29,7 +33,12 @@ export class UploadComponent {
     videoTitle: this.videoTitle,
   });
 
-  constructor(private _storage: AngularFireStorage) {}
+  constructor(
+    private _storage: AngularFireStorage,
+    private _auth: AngularFireAuth
+  ) {
+    _auth.user.subscribe((user) => (this.user = user));
+  }
 
   storeFile($event: Event) {
     this.isDragover = false;
@@ -55,6 +64,7 @@ export class UploadComponent {
     const clipPath = `clips/${clipFileName}.mp4`;
 
     const task = this._storage.upload(clipPath, this.file);
+    const clipReference = this._storage.ref(clipPath);
     task.percentageChanges().subscribe((progress) => {
       this.uploadPercentage = (progress as number) / 100;
     });
@@ -65,9 +75,21 @@ export class UploadComponent {
     // the `last()` operator will only emit the last value pushed from the Observable
     task
       .snapshotChanges()
-      .pipe(last())
+      .pipe(
+        last(),
+        switchMap(() => clipReference.getDownloadURL())
+      )
       .subscribe({
-        next: (snapshot) => {
+        next: (url) => {
+          const clip = {
+            uid: this.user?.uid,
+            displayName: this.user?.displayName,
+            clipTitle: this.videoTitle.value,
+            fileName: `${clipFileName}.mp4`,
+            url,
+          };
+          console.log(clip);
+
           this.alertColor = AlertColor.Green;
           this.alertMessage =
             'Success! Your clip is now ready to share with the world.';
