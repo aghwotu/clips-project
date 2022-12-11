@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { v4 as uuid } from 'uuid';
+import { last } from 'rxjs/operators';
+import { AlertColor } from 'src/app/models/alert.model';
 
 @Component({
   selector: 'app-upload',
@@ -15,9 +17,10 @@ export class UploadComponent {
 
   formInSubmission: boolean = false;
   showAlert: boolean = false;
-  alertColor: string = 'blue';
+  alertColor: string = AlertColor.Blue;
   alertMessage: string = 'Please wait. Your file is being uploaded';
-  percentage: number = 0;
+  uploadPercentage: number = 0;
+  showPercentage: boolean = false;
 
   videoTitle = new FormControl('', {
     validators: [Validators.required, Validators.minLength(3)],
@@ -43,16 +46,40 @@ export class UploadComponent {
 
   uploadFile() {
     this.showAlert = true;
-    this.alertColor = 'blue';
+    this.alertColor = AlertColor.Blue;
     this.alertMessage = 'Please wait. Your file is being uploaded';
     this.formInSubmission = true;
+    this.showPercentage = true;
 
     const clipFileName = uuid();
     const clipPath = `clips/${clipFileName}.mp4`;
 
     const task = this._storage.upload(clipPath, this.file);
     task.percentageChanges().subscribe((progress) => {
-      this.percentage = (progress as number) / 100;
+      this.uploadPercentage = (progress as number) / 100;
     });
+
+    // alternative way to check the uploadPercentage of the upload
+    // task.snapshotChanges().subscribe(console.log);
+
+    // the `last()` operator will only emit the last value pushed from the Observable
+    task
+      .snapshotChanges()
+      .pipe(last())
+      .subscribe({
+        next: (snapshot) => {
+          this.alertColor = AlertColor.Green;
+          this.alertMessage =
+            'Success! Your clip is now ready to share with the world.';
+          this.showPercentage = false;
+        },
+        error: (error) => {
+          this.alertColor = AlertColor.Red;
+          this.alertMessage = 'Upload failed! Please try again later.';
+          this.formInSubmission = true;
+          this.showPercentage = false;
+          console.error(error);
+        },
+      });
   }
 }
