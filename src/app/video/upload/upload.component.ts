@@ -6,6 +6,7 @@ import { last, switchMap } from 'rxjs/operators';
 import { AlertColor } from 'src/app/models/alert.model';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
+import { ClipService } from 'src/app/services';
 
 @Component({
   selector: 'app-upload',
@@ -35,7 +36,8 @@ export class UploadComponent {
 
   constructor(
     private _storage: AngularFireStorage,
-    private _auth: AngularFireAuth
+    private _auth: AngularFireAuth,
+    private _clipsService: ClipService
   ) {
     _auth.user.subscribe((user) => (this.user = user));
   }
@@ -82,12 +84,15 @@ export class UploadComponent {
       .subscribe({
         next: (url) => {
           const clip = {
-            uid: this.user?.uid,
-            displayName: this.user?.displayName,
-            clipTitle: this.videoTitle.value,
+            uid: this.user?.uid as string,
+            displayName: this.user?.displayName as string,
+            clipTitle: this.videoTitle.value as string,
             fileName: `${clipFileName}.mp4`,
             url,
           };
+
+          this._clipsService.createClip(clip);
+
           console.log(clip);
 
           this.alertColor = AlertColor.Green;
