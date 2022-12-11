@@ -13,13 +13,17 @@ export class UploadComponent {
   file: File | null = null;
   nextStep: boolean = false;
 
+  formInSubmission: boolean = false;
+  showAlert: boolean = false;
+  alertColor: string = 'blue';
+  alertMessage: string = 'Please wait. Your file is being uploaded';
+
   videoTitle = new FormControl('', {
     validators: [Validators.required, Validators.minLength(3)],
   });
   videoUploadForm = new FormGroup({
     videoTitle: this.videoTitle,
   });
-  formInSubmission: boolean = false;
 
   constructor(private _storage: AngularFireStorage) {}
 
@@ -37,6 +41,11 @@ export class UploadComponent {
   }
 
   uploadFile() {
+    this.showAlert = true;
+    this.alertColor = 'blue';
+    this.alertMessage = 'Please wait. Your file is being uploaded';
+    this.formInSubmission = true;
+
     const clipFileName = uuid();
     const clipPath = `clips/${clipFileName}.mp4`;
 
