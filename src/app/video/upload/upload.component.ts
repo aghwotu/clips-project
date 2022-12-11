@@ -56,6 +56,8 @@ export class UploadComponent {
   }
 
   uploadFile() {
+    this.videoUploadForm.disable();
+
     this.showAlert = true;
     this.alertColor = AlertColor.Blue;
     this.alertMessage = 'Please wait. Your file is being uploaded';
@@ -101,6 +103,8 @@ export class UploadComponent {
           this.showPercentage = false;
         },
         error: (error) => {
+          this.videoUploadForm.enable();
+
           this.alertColor = AlertColor.Red;
           this.alertMessage = 'Upload failed! Please try again later.';
           this.formInSubmission = true;
