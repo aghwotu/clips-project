@@ -11,6 +11,7 @@ import IClip from 'src/app/models/clip.model';
 export class ManageComponent implements OnInit {
   videoOrder = '1'; //we are storing this as a string because it is the default type from input fields
   clips: IClip[] = [];
+  activeClip: IClip | null = null;
 
   constructor(
     private _router: Router,
@@ -53,6 +54,7 @@ export class ManageComponent implements OnInit {
 
   openModal(event: Event, clip: IClip) {
     event.preventDefault();
+    this.activeClip = clip;
     this._modalService.toggleModal('editClip');
   }
 }
