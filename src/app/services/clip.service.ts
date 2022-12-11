@@ -37,4 +37,10 @@ export class ClipService {
       map((snapshot) => (snapshot as QuerySnapshot<IClip>).docs)
     );
   }
+
+  updateClip(id: string, clipTitle: string) {
+    return this.clipsCollection.doc(id).update({
+      clipTitle,
+    });
+  }
 }

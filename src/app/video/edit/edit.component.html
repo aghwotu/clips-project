@@ -2,8 +2,12 @@
   <!-- Edit Modal -->
   <p class="text-2xl font-bold">Edit Video</p>
 
+  <app-alert *ngIf="showAlert" [color]="alertColor">
+    {{ alertMessage }}
+  </app-alert>
+
   <!-- Form -->
-  <form [formGroup]="editForm" (ngSubmit)="submitForm()">
+  <form [formGroup]="editForm" (ngSubmit)="submit()">
     <!-- Title -->
     <div class="mt-4">
       <label class="block text-xl mb-4">Title</label>
@@ -13,7 +17,12 @@
     <div class="mt-4 text-right">
       <button
         type="submit"
+        [ngClass]="{
+          'opacity-50': formInSubmission,
+          'hover:bg-indigo-700': !formInSubmission
+        }"
         class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm rounded-md text-white bg-indigo-600 focus:outline-none"
+        [disabled]="editForm.invalid || formInSubmission"
       >
         Update
       </button>
