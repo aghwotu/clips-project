@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
+import {
+  AngularFireStorage,
+  AngularFireUploadTask,
+} from '@angular/fire/compat/storage';
 import { v4 as uuid } from 'uuid';
 import { last, switchMap } from 'rxjs/operators';
 import { AlertColor } from 'src/app/models/alert.model';
@@ -13,7 +16,7 @@ import { ClipService } from 'src/app/services';
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.scss'],
 })
-export class UploadComponent {
+export class UploadComponent implements OnDestroy {
   isDragover: boolean = false;
   file: File | null = null;
   nextStep: boolean = false;
@@ -26,6 +29,7 @@ export class UploadComponent {
   showPercentage: boolean = false;
 
   user: firebase.User | null = null;
+  task?: AngularFireUploadTask;
 
   videoTitle = new FormControl('', {
     validators: [Validators.required, Validators.minLength(3)],
@@ -69,17 +73,17 @@ export class UploadComponent {
     const clipFileName = uuid();
     const clipPath = `clips/${clipFileName}.mp4`;
 
-    const task = this._storage.upload(clipPath, this.file);
+    this.task = this._storage.upload(clipPath, this.file);
     const clipReference = this._storage.ref(clipPath);
-    task.percentageChanges().subscribe((progress) => {
+    this.task.percentageChanges().subscribe((progress) => {
       this.uploadPercentage = (progress as number) / 100;
     });
 
     // alternative way to check the uploadPercentage of the upload
-    // task.snapshotChanges().subscribe(console.log);
+    // this.task.snapshotChanges().subscribe(console.log);
 
     // the `last()` operator will only emit the last value pushed from the Observable
-    task
+    this.task
       .snapshotChanges()
       .pipe(
         last(),
@@ -114,5 +118,10 @@ export class UploadComponent {
           console.error(error);
         },
       });
+  }
+
+  ngOnDestroy(): void {
+    // the `cancel()` method will cease the upload to firebase
+    this.task?.cancel();
   }
 }
