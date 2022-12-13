@@ -22,6 +22,7 @@ export class UploadComponent implements OnDestroy {
   file: File | null = null;
   nextStep: boolean = false;
   screenshots: string[] = [];
+  selectedScreenshot: string = '';
 
   formInSubmission: boolean = false;
   showAlert: boolean = false;
@@ -67,6 +68,7 @@ export class UploadComponent implements OnDestroy {
     }
 
     this.screenshots = await this.ffmpegService.getScreenshots(this.file);
+    this.selectedScreenshot = this.screenshots[0];
 
     this.videoTitle.setValue(this.file.name.replace(/\.[^/.]+$/, ''));
     this.nextStep = true;
