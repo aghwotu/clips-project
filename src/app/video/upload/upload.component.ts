@@ -11,6 +11,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import { ClipService, FfmpegService } from 'src/app/services';
 import { Router } from '@angular/router';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-upload',
@@ -96,8 +97,18 @@ export class UploadComponent implements OnDestroy {
 
     this.task = this._storage.upload(clipPath, this.file);
     const clipReference = this._storage.ref(clipPath);
-    this.task.percentageChanges().subscribe((progress) => {
-      this.uploadPercentage = (progress as number) / 100;
+
+    combineLatest([
+      this.task.percentageChanges(),
+      this.screenshotTask.percentageChanges(),
+    ]).subscribe((progress) => {
+      const [clipProgress, screenshotProgress] = progress;
+
+      if (!clipProgress || !screenshotProgress) {
+        return;
+      }
+      const total = clipProgress + screenshotProgress;
+      this.uploadPercentage = (total as number) / 200;
     });
 
     // alternative way to check the uploadPercentage of the upload
@@ -124,8 +135,6 @@ export class UploadComponent implements OnDestroy {
           const clipDocumentReference = await this._clipsService.createClip(
             clip
           );
-
-          console.log(clip);
 
           this.alertColor = AlertColor.Green;
           this.alertMessage =
