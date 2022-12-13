@@ -5,13 +5,13 @@ import {
   AngularFireUploadTask,
 } from '@angular/fire/compat/storage';
 import { v4 as uuid } from 'uuid';
-import { last, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { AlertColor } from 'src/app/models/alert.model';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import { ClipService, FfmpegService } from 'src/app/services';
 import { Router } from '@angular/router';
-import { combineLatest } from 'rxjs';
+import { combineLatest, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-upload',
@@ -88,15 +88,15 @@ export class UploadComponent implements OnDestroy {
     const clipFileName = uuid();
     const clipPath = `clips/${clipFileName}.mp4`;
 
+    this.task = this._storage.upload(clipPath, this.file);
+    const clipReference = this._storage.ref(clipPath);
+
     const screenshotBlob = await this.ffmpegService.blobFromURL(
       this.selectedScreenshot
     );
-
     const screenshotPath = `screenshots/${clipFileName}.png`;
     this.screenshotTask = this._storage.upload(screenshotPath, screenshotBlob);
-
-    this.task = this._storage.upload(clipPath, this.file);
-    const clipReference = this._storage.ref(clipPath);
+    const screenshotReference = this._storage.ref(screenshotPath);
 
     combineLatest([
       this.task.percentageChanges(),
@@ -114,21 +114,28 @@ export class UploadComponent implements OnDestroy {
     // alternative way to check the uploadPercentage of the upload
     // this.task.snapshotChanges().subscribe(console.log);
 
-    // the `last()` operator will only emit the last value pushed from the Observable
-    this.task
-      .snapshotChanges()
+    forkJoin([
+      this.task.snapshotChanges(),
+      this.screenshotTask.snapshotChanges(),
+    ])
       .pipe(
-        last(),
-        switchMap(() => clipReference.getDownloadURL())
+        switchMap(() =>
+          forkJoin([
+            clipReference.getDownloadURL(),
+            screenshotReference.getDownloadURL(),
+          ])
+        )
       )
       .subscribe({
-        next: async (url) => {
+        next: async (urls) => {
+          const [clipURL, screenshotURL] = urls;
           const clip = {
             uid: this.user?.uid as string,
             displayName: this.user?.displayName as string,
             clipTitle: this.videoTitle.value as string,
             fileName: `${clipFileName}.mp4`,
-            url,
+            url: clipURL,
+            screenshotURL,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           };
 
