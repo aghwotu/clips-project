@@ -55,7 +55,12 @@ export class ClipService {
 
   async deleteClip(clip: IClip) {
     const clipReference = this._storage.ref(`clips/${clip.fileName}`);
+    const screenshotReference = this._storage.ref(
+      `screenshots/${clip.screenshotFileName}`
+    );
+
     await clipReference.delete();
+    await screenshotReference.delete();
 
     await this.clipsCollection.doc(clip.docID).delete();
   }
