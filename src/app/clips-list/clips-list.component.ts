@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ClipService } from '../services';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-clips-list',
   templateUrl: './clips-list.component.html',
   styleUrls: ['./clips-list.component.scss'],
+  providers: [DatePipe],
 })
 export class ClipsListComponent implements OnInit, OnDestroy {
   constructor(public clipService: ClipService) {
@@ -23,7 +25,6 @@ export class ClipsListComponent implements OnInit, OnDestroy {
 
     if (bottomOfWindow) {
       this.clipService.getClips();
-      console.log('we are at the bottom of the window');
     }
   };
 
