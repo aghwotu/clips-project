@@ -9,7 +9,7 @@ import { last, switchMap } from 'rxjs/operators';
 import { AlertColor } from 'src/app/models/alert.model';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
-import { ClipService } from 'src/app/services';
+import { ClipService, FfmpegService } from 'src/app/services';
 import { Router } from '@angular/router';
 
 @Component({
@@ -43,9 +43,11 @@ export class UploadComponent implements OnDestroy {
     private _storage: AngularFireStorage,
     private _auth: AngularFireAuth,
     private _clipsService: ClipService,
-    private _router: Router
+    private _router: Router,
+    public ffmpegService: FfmpegService
   ) {
     _auth.user.subscribe((user) => (this.user = user));
+    this.ffmpegService.init();
   }
 
   storeFile($event: Event) {
