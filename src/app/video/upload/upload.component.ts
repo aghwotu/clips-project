@@ -21,6 +21,7 @@ export class UploadComponent implements OnDestroy {
   isDragover: boolean = false;
   file: File | null = null;
   nextStep: boolean = false;
+  screenshots: string[] = [];
 
   formInSubmission: boolean = false;
   showAlert: boolean = false;
@@ -61,7 +62,7 @@ export class UploadComponent implements OnDestroy {
       return;
     }
 
-    await this.ffmpegService.getScreenshots(this.file);
+    this.screenshots = await this.ffmpegService.getScreenshots(this.file);
 
     this.videoTitle.setValue(this.file.name.replace(/\.[^/.]+$/, ''));
     this.nextStep = true;
