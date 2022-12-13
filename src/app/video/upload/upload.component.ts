@@ -52,6 +52,10 @@ export class UploadComponent implements OnDestroy {
   }
 
   async storeFile($event: Event) {
+    if (this.ffmpegService.isRunning === true) {
+      return;
+    }
+
     this.isDragover = false;
 
     this.file = ($event as DragEvent).dataTransfer
