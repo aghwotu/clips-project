@@ -36,6 +36,12 @@ describe('TabsContainerComponent', () => {
 
   it('should have two tabs', () => {
     const tabs = fixture.debugElement.queryAll(By.css('li'));
+    const containerComponent = fixture.debugElement.query(
+      By.directive(TabsContainerComponent)
+    );
+    const tabsProp = containerComponent.componentInstance.tabs;
+
     expect(tabs.length).toBe(2);
+    expect(tabsProp.length).toBe(2);
   });
 });
