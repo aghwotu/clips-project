@@ -29,4 +29,12 @@ describe('Tab Component', () => {
 
     expect(element).toBeTruthy();
   });
+
+  it('should not have .hidden class', () => {
+    component.active = true;
+    fixture.detectChanges();
+
+    const element = fixture.debugElement.query(By.css('.hiddent'));
+    expect(element).not.toBeTruthy();
+  });
 });
